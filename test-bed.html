@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>jsc-test-bed</title>
+		<script type="text/javascript" src="jsc.js"></script>
+	</head>
+	<body>
+
+		<h1>AEL</h1>
+
+		<p>Interpret an AEL expression</p>
+		
+		<button onclick="startInterpreter()">Start!</button>
+	
+		<textarea id="input"  rows="10" cols="25">1</textarea>
+		<textarea id="output" rows="10" cols="25"></textarea>
+		<textarea id="error"  rows="10" cols="25"></textarea>
+		<textarea id="vars"  rows="10" cols="25"></textarea>
+		
+		<script type="text/javascript">
+
+			window.onload = function()
+			{
+			    
+    		};
+			
+			function startInterpreter()
+			{
+				var input  = document.getElementById('input');
+				var output = document.getElementById('output');
+				var vars = document.getElementById('vars');
+				var error  = document.getElementById('error');
+				output.value = "";
+				error.value = "";
+				var jsc = new Jsc(input, output, vars, error);
+				jsc.main();
+			};
+
+        </script>
+
+</body>
+</html>
