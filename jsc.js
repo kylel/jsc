@@ -28,13 +28,18 @@ Jsc.prototype.addToken = function (type, value) {
 	});
 };
 
+Jsc.prototype.skipWhiteSpace = function () {
+	while (isWhiteSpace(this._look)) {
+		this.getChar();
+	}
+};
 
 Jsc.prototype.lex = function () {
 	this.getChar();
 	do {
-		if (isWhiteSpace(this._look)) {
-			this.getChar();
-		} else if (isOperator(this._look)) {
+		this.skipWhiteSpace();
+
+		if (isOperator(this._look)) {
 			this.addToken('Operator', this._look);
 			this.getChar();
 		} else if (isDigit(this._look)) {
@@ -65,7 +70,7 @@ Jsc.prototype.lex = function () {
 };
 
 var isOperator = function(c) {
-	return /[+\-*\/\^%=(),]/.test(c);
+	return /[+\-*\/\^%=(),{}\[\]]/.test(c);
 };
 
 var isDigit = function(c) {
