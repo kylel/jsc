@@ -81,7 +81,8 @@ var isIdentifier = function(c) {
 	return typeof 	c === "string" && 
 					!isOperator(c) && 
 					!isDigit(c) && 
-					!isWhiteSpace(c);
+					!isWhiteSpace(c) && 
+					c != '';
 };
 
 
@@ -90,8 +91,8 @@ var printTokens = function (tokens) {
 	str = "Tokens:";
 	for (var i=0; i< l; i++) {
 		var token = tokens[i];
-		str += "\ntype: " + token['type'];
-		str += "\nvalue: " + token['value'];
+		str += "\n\ttype: " + token['type'];
+		str += ", value: " + token['value'];
 	}
 	return str;
 }
