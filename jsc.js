@@ -28,13 +28,18 @@ Jsc.prototype.addToken = function (type, value) {
 	});
 };
 
+Jsc.prototype.skipWhiteSpace = function () {
+	while (isWhiteSpace(this._look)) {
+		this.getChar();
+	}
+};
 
 Jsc.prototype.lex = function () {
 	this.getChar();
 	do {
-		if (isWhiteSpace(this._look)) {
-			this.getChar();
-		} else if (isOperator(this._look)) {
+		this.skipWhiteSpace();
+
+		if (isOperator(this._look)) {
 			this.addToken('Operator', this._look);
 			this.getChar();
 		} else if (isDigit(this._look)) {
@@ -65,7 +70,7 @@ Jsc.prototype.lex = function () {
 };
 
 var isOperator = function(c) {
-	return /[+\-*\/\^%=(),]/.test(c);
+	return /[+\-*\/\^%=(),{}\[\]]/.test(c);
 };
 
 var isDigit = function(c) {
@@ -81,7 +86,7 @@ var isIdentifier = function(c) {
 	return typeof 	c === "string" && 
 					!isOperator(c) && 
 					!isDigit(c) && 
-					!isWhiteSpace(c) &&
+					!isWhiteSpace(c) && 
 					c != '';
 };
 
@@ -91,8 +96,8 @@ var printTokens = function (tokens) {
 	str = "Tokens:";
 	for (var i=0; i< l; i++) {
 		var token = tokens[i];
-		str += "\ntype: " + token['type'];
-		str += "\nvalue: " + token['value'];
+		str += "\n\ttype: " + token['type'];
+		str += ", value: " + token['value'];
 	}
 	return str;
 }
