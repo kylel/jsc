@@ -9,6 +9,8 @@ Jsc = function(input, output, vars, error) {
 	this.tokens = [];
 }
 
+var cKeyWords = ['if', 'for', 'continue', 'while', 'break', 'switch', 'case', 'goto', 'default', 'do', 'return'];
+
 Jsc.prototype.main = function() {
 	var tokens = this.lex();
 	console.log(this.tokens);
@@ -59,7 +61,18 @@ Jsc.prototype.lex = function () {
 			while (isIdentifier(this.getChar())) {
 				idn += this._look;
 			}
-			this.addToken('Identifier', idn);
+			var kw = false;
+			for (var key in cKeyWords) {
+				let x = cKeyWords[key];
+				if (idn == x) {
+					this.addToken('Key Word', idn);
+					kw = true;
+					break;
+				}
+			}
+			if (!kw) {
+				this.addToken('Identifier', idn);
+			}
 		} else {
 			throw 'Unrecognised token.';
 		}
@@ -70,7 +83,7 @@ Jsc.prototype.lex = function () {
 };
 
 var isOperator = function(c) {
-	return /[+\-*\/\^%=(),{}\[\]]/.test(c);
+	return /[+\-*\/\^%=(),{}\[\];]/.test(c);
 };
 
 var isDigit = function(c) {
