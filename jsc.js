@@ -9,14 +9,25 @@ Jsc = function(input, output, vars, error) {
 	this.tokens = [];
 }
 
+var cOperators = 
+[	'+', 	'-',	'/',	'*',	'=',	'%',	'^',	'|',
+	 '&',	'!',	'>',	'<', 	',',	'.',	'(',	')',
+	 '{',	'}',	'[',	']',	'#',	'?',	':',	';',
+
+	'++',	'--',	'!=',	'==',	'<=',	'>=',	'&&',	'||', 
+	'^=',	'*=',	'+=',	'/=',	'&=',	'%=',	'<<',	'>>',
+	'<<=',	'>>=',	'##',	'->',	'"',	"..."
+];
+
 var cKeyWords = [	'auto', 'break', 'case', 'char',
 					'const', 'continue', 'default', 'do',
 					'double', 'else', 'enum', 'extern', 
 					'float', 'for', 'goto', 'if',
-					'int', 'long', 'register', 'return'
+					'int', 'long', 'register', 'return',
 					'short', 'signed', 'sizeof', 'static',
 					'struct', 'switch', 'typedef', 'union',
 					'unsigned', 'void', 'volatile', 'while'];
+
 
 Jsc.prototype.main = function() {
 	var tokens = this.lex();
@@ -90,7 +101,7 @@ Jsc.prototype.lex = function () {
 };
 
 var isOperator = function(c) {
-	return /[+\-*\/\^%=(),{}\[\];]/.test(c);
+	return /[+\-*\/\^%=(),{}\[\];"<>]/.test(c);
 };
 
 var isDigit = function(c) {
