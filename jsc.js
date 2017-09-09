@@ -9,6 +9,15 @@ Jsc = function(input, output, vars, error) {
 	this.tokens = [];
 }
 
+var cKeyWords = [	'auto', 'break', 'case', 'char',
+					'const', 'continue', 'default', 'do',
+					'double', 'else', 'enum', 'extern', 
+					'float', 'for', 'goto', 'if',
+					'int', 'long', 'register', 'return'
+					'short', 'signed', 'sizeof', 'static',
+					'struct', 'switch', 'typedef', 'union',
+					'unsigned', 'void', 'volatile', 'while'];
+
 Jsc.prototype.main = function() {
 	var tokens = this.lex();
 	console.log(this.tokens);
@@ -59,7 +68,18 @@ Jsc.prototype.lex = function () {
 			while (isIdentifier(this.getChar())) {
 				idn += this._look;
 			}
-			this.addToken('Identifier', idn);
+			var kw = false;
+			for (var key in cKeyWords) {
+				let x = cKeyWords[key];
+				if (idn == x) {
+					this.addToken('Key Word', idn);
+					kw = true;
+					break;
+				}
+			}
+			if (!kw) {
+				this.addToken('Identifier', idn);
+			}
 		} else {
 			throw 'Unrecognised token.';
 		}
@@ -70,7 +90,7 @@ Jsc.prototype.lex = function () {
 };
 
 var isOperator = function(c) {
-	return /[+\-*\/\^%=(),{}\[\]]/.test(c);
+	return /[+\-*\/\^%=(),{}\[\];]/.test(c);
 };
 
 var isDigit = function(c) {
