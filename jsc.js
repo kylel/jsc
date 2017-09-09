@@ -78,7 +78,7 @@ var isDigit = function(c) {
 };
 
 var isWhiteSpace = function(c) {
-	let res = /\x/.test(c) || [' ', '\t', '\n'].indexOf(c) > -1;
+	let res = [' ', '\t', '\n'].indexOf(c) > -1;
 	return res;
 };
 
